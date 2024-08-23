@@ -1,0 +1,94 @@
+// void	draw_box(t_game *game, t_position start,
+// t_position end, uint32_t color)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	start.x += game->offset.x;
+// 	start.y += game->offset.y;
+// 	x = start.x;
+// 	y = start.y;
+// 	end.x += game->offset.x;
+// 	end.y += game->offset.y;
+// 	while (x < end.x)
+// 	{
+// 		mlx_pixel_put(game->mlx, game->win, x, start.y, color);
+// 		mlx_pixel_put(game->mlx, game->win, x, end.y, color);
+// 		x++;
+// 	}
+// 	while (y < end.y)
+// 	{
+// 		mlx_pixel_put(game->mlx, game->win, start.x, y, color);
+// 		mlx_pixel_put(game->mlx, game->win, end.x, y, color);
+// 		y++;
+// 	}
+// }
+
+
+// static void	load_enemy_animation(void *mlx, t_images *imgs)
+// {
+// 	imgs->enemy_idle_left = animate(mlx,
+// 			E_IDLE_DIR_LEFT "ghost_idle_left", E_IDLE_FRAMES, E_IDLE_INTERVAL);
+// 	imgs->enemy_idle_right = animate(mlx,
+// 			E_IDLE_DIR_RIGHT "ghost_idle_right", E_IDLE_FRAMES, E_IDLE_INTERVAL);
+// 	imgs->enemy_move_left = animate(mlx,
+// 			E_MOVEMENT_DIR_LEFT "ghost_moving_left", E_MOVEMENT_FRAMES, E_MOVE_INTERVAL);
+// 	imgs->enemy_move_right = animate(mlx,
+// 			E_MOVEMENT_DIR_RIGHT "ghost_moving_right", E_MOVEMENT_FRAMES, E_MOVE_INTERVAL);
+// }
+
+
+// void	set_enemy_animation(t_enemy *enemy, t_images *imgs)
+// {
+// 	enemy->animations[0] = &imgs->enemy_idle_left;
+// 	enemy->animations[1] = &imgs->enemy_idle_right;
+// 	enemy->animations[2] = &imgs->enemy_move_left;
+// 	enemy->animations[3] = &imgs->enemy_move_right;
+// }
+
+// void	free_enemy_animation(t_game *game, t_images *imgs)
+// {
+// 	free_animation(game->mlx, &imgs->enemy_idle_left);
+// 	free_animation(game->mlx, &imgs->enemy_idle_right);
+// 	free_animation(game->mlx, &imgs->enemy_move_left);
+// 	free_animation(game->mlx, &imgs->enemy_move_right);
+// }
+
+// void	free_enemy(t_enemy *enemy)
+// {
+// 	t_enemy	*tmp;
+
+// 	while (enemy != NULL)
+// 	{
+// 		tmp = enemy;
+// 		enemy = enemy->next;
+// 		free(tmp);
+// 	}
+// }
+
+// void	init_enemy(t_position *tile, t_entity *entities, t_images *imgs)
+// {
+// 	t_enemy	*new_enemy;
+// 	t_enemy	**curr_ptr;
+
+// 	if (!new_enemy)
+// 		error_msg(ERR_MALLOC);
+// 	set_pos(&new_enemy->tile, &new_enemy->world, tile);
+// 	new_enemy->target_world.x = new_enemy->world.x;
+// 	new_enemy->target_world.y = new_enemy->world.y;
+// 	new_enemy->is_moving = false;
+// 	new_enemy->ticks = 0;
+// 	new_enemy->state = IDLE_LEFT;
+// 	new_enemy->hitbox = set_hitbox(&new_enemy->world);
+// 	set_enemy_animation(new_enemy, imgs);
+// 	new_enemy->next = NULL;
+// 	curr_ptr = &entities->enemy;
+// 	while (*curr_ptr != NULL)
+// 		curr_ptr = &(*curr_ptr)->next;
+// 	*curr_ptr = new_enemy;
+// }
+
+// #define E_IDLE_DIR_RIGHT "textures/enemy/idle/right/"
+// #define E_IDLE_DIR_LEFT "textures/enemy/idle/left/"
+// #define E_MOVEMENT_DIR_RIGHT "textures/enemy/movement/right/"
+// #define E_MOVEMENT_DIR_LEFT "textures/enemy/movement/left/"

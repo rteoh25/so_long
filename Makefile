@@ -5,41 +5,58 @@
 #                                                     +:+ +:+         +:+      #
 #    By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/15 02:28:29 by rteoh             #+#    #+#              #
-#    Updated: 2024/06/27 01:06:17 by rteoh            ###   ########.fr        #
+#    Created: 2024/02/22 16:15:04 by rteoh             #+#    #+#              #
+#    Updated: 2024/08/21 18:41:59 by rteoh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = test
+NAME = so_long
 CC = cc
-CFLAGS =-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -Lmlibx -lmlx
 FRAMEWORKS = -framework OpenGL -framework AppKit
+FSAN = -fsanitize=address
+DEBUG = -g3
 INCLUDES = ./includes
-
+MLX = /usr/local/lib/libmlx.a
+LIBFT = ./libft/libft.a
+PRINTF = ./ft_printf/libftprintf.a
 
 OBJ_DIR = obj/
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_DIR), $(OBJ))
 
 SRC_DIR = src/
-SRC = so_long.c error.c
+SRC = error.c render1.c exit.c render2.c free.c so_long.c hitbox.c \
+    image_utils.c update_player.c images.c update_player_utils.c \
+    init_entities_1.c utils.c init_entities_2.c validate_map.c \
+    move.c validate_path.c move_player.c validate_path_utils.c \
+    parse_map.c \
+
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 
 all: $(NAME)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I $(INCLUDES) -c $< -o $@
+$(NAME): $(OBJ_DIR) $(OBJS)
+	$(MAKE) -C ./libft
+	$(MAKE) -C ./ft_printf
+	$(CC) $(OBJS) ${MLX} ${LIBFT} $(PRINTF) $(LDFLAGS) $(FRAMEWORKS) -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-$(NAME): $(OBJS)
-	${MAKE} -C ./libft
-	$(CC) $(CFLAGS) $(OBJS) ./mlibx/libmlx.a ./libft/libft.a $(LDFLAGS) $(FRAMEWORKS) -o $(NAME)
+$(OBJ_DIR)%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -I $(INCLUDES) -c $< -o $@
 
 clean:
-	${MAKE} -C ./libft fclean
-	rm -rf $(OBJ_DIR) $(NAME)
+	rm -rf $(OBJ_DIR)
 
-re: clean all
+fclean: clean
+	$(MAKE) fclean -C ./libft
+	$(MAKE) fclean -C ./ft_printf
+	rm -rf $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
+
